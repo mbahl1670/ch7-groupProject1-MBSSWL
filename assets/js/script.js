@@ -15,4 +15,3 @@ $("#memeBtn").on("click", function(event) {
     var newWord = $("#memeWord").val().trim();
     getWord(newWord);
 })
-
