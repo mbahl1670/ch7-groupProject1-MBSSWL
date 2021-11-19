@@ -6,6 +6,7 @@ var getWord = function(word) {
     fetch(startWord).then(function (response) {
         response.json().then(function(data) {
             if (data.noun) {
+                console.log(data);
                 var num = data.noun.syn.length;
                 var pickRandomSynNum = randomNumber(0,num);
                 var wordToMeme = data.noun.syn[pickRandomSynNum];
@@ -23,7 +24,11 @@ var getMeme = function(wordFromThesaurus) {
 
     fetch(giphyURL).then(function (response) {
         response.json().then(function(data) {
+            console.log(wordFromThesaurus);
             console.log(data);
+            // https://giphy.com/embed/uqUbXXKVBwxu8
+            embedURL = data.data[0].embed_url;
+            $("#giph").attr("src", embedURL);
         });
     });
 }
@@ -41,7 +46,7 @@ $("#memeBtn").on("click", function(event) {
     event.preventDefault();
     var newWord = $("#memeWord").val().trim();
     getWord(newWord);
-    $("#memeWord").val(""); // clears the text area after we click the button
+    // $("#memeWord").val(""); // clears the text area after we click the button
 })
 
 var randomNumber = function(min, max) {
