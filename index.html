@@ -1,26 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Memeify</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <title>Memeify</title>
 </head>
+
 <body>
 
-    <form id="user-form">
-        <label for="memeWord">Give me a Word to Meme!</label>
-        <input name="memeWord" id="memeWord" type="text" autofocus="true"/>
-        <button id="memeBtn" type="submit">Get Meme</button>
-      </form>
+  <header>
+    <h1>Welcome to our Meme Builder!</h1>
+  </header>
+
+  <main>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="./assets/js/script.js"></script>
+    <form id="user-form">
+      <label for="memeWord">Give me a Word to Meme!</label>
+      <input name="memeWord" id="memeWord" type="text" placeholder="Type a noun" autofocus="true"/>
+      <button id="memeBtn" type="submit">Get Meme</button>
+    </form>
+
+    <section>
+      <div>
+        <div>
+          <h2>Word typed:</h2>
+        </div>
+        <div>
+          <h2 id="typedInWord"></h2>
+        </div>
+      </div>
+
+      <div>
+        <div>
+          <h2>Synonym for <span id="typedInWord2"></span></h2>
+        </div>
+        <div>
+          <h2 id="synonym"></h2>
+        </div>
+      </div>
+      
+      <div>
+        <div>
+          <h2>Look at the giph that was generated!</h2>
+        </div>
+        <figure>
+          <img id="giph"></img>
+        </figure>
+      </div>
+    
+    </section>
+  
+  </main>    
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="./assets/js/script.js"></script>
 </body>
 </html>
