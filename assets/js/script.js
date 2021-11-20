@@ -5,7 +5,7 @@ var getWord = function(word) {
 
     fetch(startWord).then(function (response) {
         response.json().then(function(data) {
-            if (data.noun) {
+            if (data.noun) { // If (“noun” in objectName)
                 console.log(data);
                 var num = data.noun.syn.length;
                 var pickRandomSynNum = randomNumber(0,num);
