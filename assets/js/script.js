@@ -20,17 +20,25 @@ var getWord = function(word) {
 
 var getMeme = function(wordFromThesaurus) {
     // returning 5 values from the giphy API
-    var giphyURL = "https://api.giphy.com/v1/gifs/search?api_key=vcTR1GucFAwcW13jdyTEqRNcYzBbE9E2&q=" + wordFromThesaurus + "&limit=5&offset=0&rating=r&lang=en";
+    var giphyURL = "https://api.giphy.com/v1/gifs/search?api_key=vcTR1GucFAwcW13jdyTEqRNcYzBbE9E2&q=" + wordFromThesaurus + "&limit=1&offset=0&rating=r&lang=en";
 
     fetch(giphyURL).then(function (response) {
         response.json().then(function(data) {
             console.log(wordFromThesaurus);
             console.log(data);
-            // https://giphy.com/embed/uqUbXXKVBwxu8
-            embedURL = data.data[0].embed_url;
-            $("#giph").attr("src", embedURL);
+            showThatApp(data, wordFromThesaurus);
         });
     });
+}
+
+var showThatApp = function(giphyInfo, wordSyn) {
+    var imageURL = giphyInfo.data[0].images.downsized.url;
+    var newWord = $("#memeWord").val().trim();
+    $("#typedInWord").text(newWord);
+    $("#typedInWord2").text(newWord + ":  ");
+    $("#synonym").text(wordSyn);
+    $("#giph").attr("src", imageURL);
+    $("#memeWord").val("");
 }
 
 // functionality stuff to make it look prettier. 
