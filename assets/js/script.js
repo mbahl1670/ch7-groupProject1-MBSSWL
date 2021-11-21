@@ -1,7 +1,13 @@
+// global variables
 var searchHistory = [];  // create an empty object to hold the search history arrays
 
+// generic random number function
+var randomNumber = function(min, max) { 
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
+};
 
-// fucntion to get a synonym for the word the user enters from the Thesaurus API
+// function to get a synonym for the word the user enters from the Thesaurus API
 var getWord = function(word) {
     var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/" + word +"/json";
 
@@ -48,22 +54,49 @@ var getMeme = function(wordFromThesaurus) {
     });
 }
 
-// the function that runs to create and dispaly information to page THIS IS THE MAIN FUNCTION FOR END-USER EXPERIENCE
+// MAIN the function that runs to create and dispaly information to page THIS IS THE MAIN FUNCTION FOR END-USER EXPERIENCE
 var showThatApp = function(giphyInfo, wordSyn) {
+
+    // clear former search
+    $("#typedInWord").text("");
+    $("#giph-holder").text("");
+
+    // create variables to grab needed information
     var imageURL = giphyInfo.data[0].images.downsized.url;
     var newWord = $("#memeWord").val().trim();
 
     // create simple message for UX
     var wordDisplayEl = $("<h2></h2>").text("Memifying " + newWord);
-    $("#typedInWord").append(wordDisplayEl);
+    $("#typedInWord").append(wordDisplayEl); 
 
 
-
+    // I dont think we need the following two lines of code - it just clutters the page with unneded information
     // $("#typedInWord2").text(newWord + ":  ");
     // $("#synonym").text(wordSyn);
-    $("#giph").attr("src", imageURL);
-    $("#memeWord").val("");
-}
+
+    // loop to display gifs on page
+    for (let x = 0; x < 3; x++) {
+
+        var mainGifHolder = document.querySelector("#gif-holder");
+
+
+        // create individual cards for each individual gif
+        var memeCardContainer = document.createElement("div");
+        memeCardContainer.setAttribute("id", "new-meme" + x);
+        mainGifHolder.appendChild(memeCardContainer);
+
+        var showGif = document.createElement("img");
+        showGif.setAttribute("src", imageURL);
+        memeCardContainer.appendChild(showGif);
+
+        
+    };
+
+
+
+    // $("#giph").attr("src", imageURL);
+    // $("#memeWord").val("");
+};
 
 // I've commented this out as I think it's unneeded. But I kept the code as it may be useful to console log it when error fixing
 
@@ -78,7 +111,7 @@ var showThatApp = function(giphyInfo, wordSyn) {
 $("#memeWord").on("click", function() {
     $("#memeWord").attr("placeholder", "").val("");
 }).on("blur", function() {
-    $("#memeWord").attr("placeholder", "Type a noun")
+    $("#memeWord").attr("placeholder", "Enter a Word")
 });
 
 
@@ -96,12 +129,6 @@ $("#clearBtn").on("click", function() {
     localStorage.setItem("history", JSON.stringify(searchHistory));
     location.reload();
 })
-
-// generic random number function
-var randomNumber = function(min, max) { 
-    var value = Math.floor(Math.random() * (max - min + 1) + min);
-    return value;
-};
 
 // this needs to be added back in to create buttons for history as desired
 
