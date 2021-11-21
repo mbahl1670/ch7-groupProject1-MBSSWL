@@ -10,7 +10,7 @@ var getWord = function(word) {
                 var num = data.noun.syn.length;
                 var pickRandomSynNum = randomNumber(0,num);
                 var wordToMeme = data.noun.syn[pickRandomSynNum];
-
+                updateMemeHistory(word, wordToMeme);
                 getMeme(wordToMeme);
             }
            
@@ -39,6 +39,11 @@ var showThatApp = function(giphyInfo, wordSyn) {
     $("#synonym").text(wordSyn);
     $("#giph").attr("src", imageURL);
     $("#memeWord").val("");
+}
+
+var updateMemeHistory = function(wordTyped, wordSynonym) {
+    // appends an unorderd list with 2 list items (the original word typed & the random synonym) to the search history area in the footer
+    $("#memeHistory").append("<ul><li>Original Word: " + wordTyped + "</li><li>Synonym: " + wordSynonym + "</li></ul>");
 }
 
 // functionality stuff to make it look prettier. 
