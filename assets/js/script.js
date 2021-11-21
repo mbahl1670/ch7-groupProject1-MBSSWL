@@ -1,5 +1,7 @@
-// var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/love/json";
+var searchHistory = [];  // create an empty object to hold the search history arrays
 
+
+// fucntion to get a synonym for the word the user enters from the Thesaurus API
 var getWord = function(word) {
     var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/" + word +"/json";
 
@@ -7,11 +9,11 @@ var getWord = function(word) {
         response.json().then(function(data) {
             if (data.noun) { // If (“noun” in objectName)
                 console.log(data);
-                var num = data.noun.syn.length;
-                var pickRandomSynNum = randomNumber(0,num);
-                var wordToMeme = data.noun.syn[pickRandomSynNum];
-                updateMemeHistory(word, wordToMeme);
-                getMeme(wordToMeme);
+                var num = data.noun.syn.length; // num = the number of possible synonyms a word has
+                var pickRandomSynNum = randomNumber(0,num); // returns a random number representing a random word in the noun.array
+                var wordToMeme = data.noun.syn[pickRandomSynNum]; // sets the word that we will meme to a random synonym.
+                addToMemeHistory(word, wordToMeme); // adds the orignal word + the synonym word to the search history bar
+                getMeme(wordToMeme); // passes the random synonym into a function that will make a call to the giphy API
             }
            
         });
@@ -19,14 +21,14 @@ var getWord = function(word) {
 }
 
 var getMeme = function(wordFromThesaurus) {
-    // returning 5 values from the giphy API
+    // returning 1 values from the giphy API
     var giphyURL = "https://api.giphy.com/v1/gifs/search?api_key=vcTR1GucFAwcW13jdyTEqRNcYzBbE9E2&q=" + wordFromThesaurus + "&limit=1&offset=0&rating=r&lang=en";
 
     fetch(giphyURL).then(function (response) {
         response.json().then(function(data) {
             console.log(wordFromThesaurus);
             console.log(data);
-            showThatApp(data, wordFromThesaurus);
+            showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
         });
     });
 }
@@ -41,7 +43,7 @@ var showThatApp = function(giphyInfo, wordSyn) {
     $("#memeWord").val("");
 }
 
-var updateMemeHistory = function(wordTyped, wordSynonym) {
+var addToMemeHistory = function(wordTyped, wordSynonym) {
     // appends an unorderd list with 2 list items (the original word typed & the random synonym) to the search history area in the footer
     $("#memeHistory").append("<ul><li>Original Word: " + wordTyped + "</li><li>Synonym: " + wordSynonym + "</li></ul>");
 }
@@ -55,14 +57,16 @@ $("#memeWord").on("click", function() {
     $("#memeWord").attr("placeholder", "Type a noun")
 });
 
+
+// function that will pass the typed in word into the function making the call to the thesaurus app
 $("#memeBtn").on("click", function(event) {
     event.preventDefault();
     var newWord = $("#memeWord").val().trim();
     getWord(newWord);
-    // $("#memeWord").val(""); // clears the text area after we click the button
 })
 
-var randomNumber = function(min, max) {
+// generic random number function
+var randomNumber = function(min, max) { 
     var value = Math.floor(Math.random() * (max - min + 1) + min);
     return value;
   };
