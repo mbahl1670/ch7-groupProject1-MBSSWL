@@ -12,6 +12,21 @@ var getWord = function(word) {
                 var num = data.noun.syn.length; // num = the number of possible synonyms a word has
                 var pickRandomSynNum = randomNumber(0,num); // returns a random number representing a random word in the noun.array
                 var wordToMeme = data.noun.syn[pickRandomSynNum]; // sets the word that we will meme to a random synonym.
+                
+                if (!word || !wordToMeme) {
+                    alert("Something went wrong!");
+                    return;
+                }
+
+                
+                // save the original word and the synonym to local storage
+                var newHistoryToAdd =  {
+                    memeWord: word,
+                    memeSyn: wordToMeme
+                };
+                searchHistory.push(newHistoryToAdd);
+                localStorage.setItem("history", JSON.stringify(searchHistory));
+
                 addToMemeHistory(word, wordToMeme); // adds the orignal word + the synonym word to the search history bar
                 getMeme(wordToMeme); // passes the random synonym into a function that will make a call to the giphy API
             }
@@ -65,8 +80,28 @@ $("#memeBtn").on("click", function(event) {
     getWord(newWord);
 })
 
+// event listener for when the clear meme history button is clicked
+$("#clearBtn").on("click", function() {
+    $("#memeHistory").html("");
+    searchHistory = [];
+    localStorage.setItem("history", JSON.stringify(searchHistory));
+    location.reload();
+})
+
 // generic random number function
 var randomNumber = function(min, max) { 
     var value = Math.floor(Math.random() * (max - min + 1) + min);
     return value;
-  };
+};
+
+window.onload = function() {
+    searchHistory = JSON.parse(localStorage.getItem("history"));
+    if (searchHistory) {
+        for ( i = 0; i < searchHistory.length; i++) {
+            addToMemeHistory(searchHistory[i].memeWord, searchHistory[i].memeSyn);
+        }
+    }
+    else {
+        searchHistory = [];
+    }
+}
