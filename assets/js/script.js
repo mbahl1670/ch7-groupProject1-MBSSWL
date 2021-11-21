@@ -27,7 +27,7 @@ var getWord = function(word) {
                 searchHistory.push(newHistoryToAdd);
                 localStorage.setItem("history", JSON.stringify(searchHistory));
 
-                addToMemeHistory(word, wordToMeme); // adds the orignal word + the synonym word to the search history bar
+                // addToMemeHistory(word, wordToMeme); // adds the orignal word + the synonym word to the search history bar
                 getMeme(wordToMeme); // passes the random synonym into a function that will make a call to the giphy API
             }
            
@@ -48,20 +48,29 @@ var getMeme = function(wordFromThesaurus) {
     });
 }
 
+// the function that runs to create and dispaly information to page THIS IS THE MAIN FUNCTION FOR END-USER EXPERIENCE
 var showThatApp = function(giphyInfo, wordSyn) {
     var imageURL = giphyInfo.data[0].images.downsized.url;
     var newWord = $("#memeWord").val().trim();
-    $("#typedInWord").text(newWord);
-    $("#typedInWord2").text(newWord + ":  ");
-    $("#synonym").text(wordSyn);
+
+    // create simple message for UX
+    var wordDisplayEl = $("<h2></h2>").text("Memifying " + newWord);
+    $("#typedInWord").append(wordDisplayEl);
+
+
+
+    // $("#typedInWord2").text(newWord + ":  ");
+    // $("#synonym").text(wordSyn);
     $("#giph").attr("src", imageURL);
     $("#memeWord").val("");
 }
 
-var addToMemeHistory = function(wordTyped, wordSynonym) {
-    // appends an unorderd list with 2 list items (the original word typed & the random synonym) to the search history area in the footer
-    $("#memeHistory").append("<ul><li>Original Word: " + wordTyped + "</li><li>Synonym: " + wordSynonym + "</li></ul>");
-}
+// I've commented this out as I think it's unneeded. But I kept the code as it may be useful to console log it when error fixing
+
+// var addToMemeHistory = function(wordTyped, wordSynonym) {
+//     // appends an unorderd list with 2 list items (the original word typed & the random synonym) to the search history area in the footer
+//     $("#memeHistory").append("<ul><li>Original Word: " + wordTyped + "</li><li>Synonym: " + wordSynonym + "</li></ul>");
+// }
 
 // functionality stuff to make it look prettier. 
 // when you click the text area the placeholder clears,
@@ -94,14 +103,16 @@ var randomNumber = function(min, max) {
     return value;
 };
 
-window.onload = function() {
-    searchHistory = JSON.parse(localStorage.getItem("history"));
-    if (searchHistory) {
-        for ( i = 0; i < searchHistory.length; i++) {
-            addToMemeHistory(searchHistory[i].memeWord, searchHistory[i].memeSyn);
-        }
-    }
-    else {
-        searchHistory = [];
-    }
-}
+// this needs to be added back in to create buttons for history as desired
+
+// window.onload = function() {
+//     searchHistory = JSON.parse(localStorage.getItem("history"));
+//     if (searchHistory) {
+//         for ( i = 0; i < searchHistory.length; i++) {
+//             addToMemeHistory(searchHistory[i].memeWord, searchHistory[i].memeSyn);
+//         }
+//     }
+//     else {
+//         searchHistory = [];
+//     }
+// }

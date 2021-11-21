@@ -19,8 +19,8 @@
     
     <form id="user-form">
       <label for="memeWord">Give me a Word to Meme!</label>
-      <input name="memeWord" id="memeWord" type="text" placeholder="Type a noun" autofocus="true"/>
-      <button id="memeBtn" type="submit">Get Meme</button>
+      <input name="memeWord" id="memeWord" type="text" placeholder="Enter a Word" autofocus="true"/>
+      <button id="memeBtn" type="submit">Get Memes</button>
       <div>
         <button id="clearBtn" type="submit">Clear the Meme History</button>
       </div>
@@ -28,31 +28,10 @@
 
     <section>
       
-      <div>
-        <div>
-          <h2>Word typed:</h2>
-        </div>
-        <div>
-          <h2 id="typedInWord"></h2>
-        </div>
-      </div>
-
-      <div>
-        <div>
-          <h2>Synonym for <span id="typedInWord2"></span></h2>
-        </div>
-        <div>
-          <h2 id="synonym"></h2>
-        </div>
+      <div id="typedInWord">
       </div>
       
-      <div>
-        <div>
-          <h2>Look at the giph that was generated!</h2>
-        </div>
-        <figure>
-          <img id="giph"></img>
-        </figure>
+      <div id="giph-holder">
       </div>
     
     </section>
