@@ -128,11 +128,18 @@ $("#clearBtn").on("click", function() {
 
 var addToMemeHistory = function(wordTyped, wordSynonym) {
     var insertMemeHistory = document.createElement("button");
-    insertMemeHistory.textContent = wordTyped + "/" + wordSynonym;
-    insertMemeHistory.setAttribute("id", wordTyped);
+    insertMemeHistory.textContent = wordTyped;
+    insertMemeHistory.setAttribute("id", "historyWord");
     insertMemeHistory.type = "button";
     memeHistory.append(insertMemeHistory);
 };
+
+// event listener for when something in the search history is clicked
+$("#meme-history").on("click", "#historyWord", function() {
+    var memeHistoryTerm = $(this).text();
+    $("#gif-holder").empty();
+    getWord(memeHistoryTerm);
+});
 
 
 window.onload = function() {
