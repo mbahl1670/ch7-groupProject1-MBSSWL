@@ -13,7 +13,7 @@ var randomNumber = function(min, max) {
 var getWord = function(word) {
     var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/" + word +"/json";
 
-    for (let run = 0; run <= 3; run++) {
+    for (let run = 0; run < 1; run++) {
         
     
 
@@ -21,7 +21,7 @@ var getWord = function(word) {
             response.json().then(function(data) {
                 if (data.noun) { // If (“noun” in objectName)
                     console.log(data);
-                    var num = data.noun.syn.length; // num = the number of possible synonyms a word has
+                    var num = data.noun.syn.length - 1; // num = the number of possible synonyms a word has
                     var pickRandomSynNum = randomNumber(0,num); // returns a random number representing a random word in the noun.array
                     var wordToMeme = data.noun.syn[pickRandomSynNum]; // sets the word that we will meme to a random synonym.
                     
@@ -38,6 +38,7 @@ var getWord = function(word) {
                     };
                     searchHistory.push(newHistoryToAdd);
                     localStorage.setItem("history", JSON.stringify(searchHistory));
+                    addToMemeHistory(word, wordToMeme);
 
                     // addToMemeHistory(word, wordToMeme); // adds the orignal word + the synonym word to the search history bar
                     getMeme(wordToMeme); // passes the random synonym into a function that will make a call to the giphy API
@@ -63,7 +64,7 @@ var getMeme = function(wordFromThesaurus) {
 
 // MAIN the function that runs to create and dispaly information to page THIS IS THE MAIN FUNCTION FOR END-USER EXPERIENCE
 var showThatApp = function(giphyInfo, wordSyn) {
-
+    $("#memeWord").val("");
     // create variables to grab needed information
     var imageURL = giphyInfo.data[0].images.downsized.url;
     var newWord = $("#memeWord").val().trim();
@@ -125,9 +126,9 @@ $("#clearBtn").on("click", function() {
     location.reload();
 })
 
-var addToMemeHistory = function(wordTyped) {
+var addToMemeHistory = function(wordTyped, wordSynonym) {
     var insertMemeHistory = document.createElement("button");
-    insertMemeHistory.textContent = wordTyped;
+    insertMemeHistory.textContent = wordTyped + "/" + wordSynonym;
     insertMemeHistory.setAttribute("id", wordTyped);
     insertMemeHistory.type = "button";
     memeHistory.append(insertMemeHistory);
