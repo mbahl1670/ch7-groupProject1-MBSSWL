@@ -13,7 +13,7 @@ var randomNumber = function(min, max) {
 var getWord = function(word) {
     var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/" + word +"/json";
 
-    for (let run = 0; run < 1; run++) {
+    for (let run = 0; run < 3; run++) {
         
     
 
@@ -32,16 +32,24 @@ var getWord = function(word) {
 
                     // I think this function should be outside this function call - first it makes it easier to use in future, second, we might need to include get word in a loop and we don't want it logging every synonym it pulls - just the original search
                     // save the original word and the synonym to local storage
-                    var newHistoryToAdd =  {
-                        memeWord: word,
-                        memeSyn: wordToMeme
-                    };
-                    searchHistory.push(newHistoryToAdd);
-                    localStorage.setItem("history", JSON.stringify(searchHistory));
-                    addToMemeHistory(word, wordToMeme);
-
+                    
                     // addToMemeHistory(word, wordToMeme); // adds the orignal word + the synonym word to the search history bar
                     getMeme(wordToMeme); // passes the random synonym into a function that will make a call to the giphy API
+                    
+                    var newWord = isNew(word);
+                    console.log(newWord);
+                    
+                    if (newWord) {
+                        addToMemeHistory(word, wordToMeme);
+                        var newHistoryToAdd =  {
+                            memeWord: word,
+                            memeSyn: wordToMeme
+                        };
+                        searchHistory.push(newHistoryToAdd);
+                        localStorage.setItem("history", JSON.stringify(searchHistory));
+                    }
+                    
+
                 }
             
             });
@@ -95,6 +103,24 @@ var showThatApp = function(giphyInfo, wordSyn) {
     // $("#memeWord").val("");
 };
 
+var addToMemeHistory = function(wordTyped, wordSynonym) {
+    var insertMemeHistory = document.createElement("button");
+    insertMemeHistory.textContent = wordTyped;
+    insertMemeHistory.setAttribute("id", "historyWord");
+    insertMemeHistory.type = "button";
+    memeHistory.append(insertMemeHistory);
+};
+
+var isNew = function(word) {
+    var newMeme = true;
+    for (i = 0; i < searchHistory.length; i++) {
+        if (searchHistory[i].memeWord == word) {
+            console.log(word, searchHistory[i].memeWord);
+            newMeme = false;
+        }
+    }
+    return newMeme;
+}
 
 // functionality stuff to make it look prettier. 
 // when you click the text area the placeholder clears,
@@ -126,13 +152,6 @@ $("#clearBtn").on("click", function() {
     location.reload();
 })
 
-var addToMemeHistory = function(wordTyped, wordSynonym) {
-    var insertMemeHistory = document.createElement("button");
-    insertMemeHistory.textContent = wordTyped;
-    insertMemeHistory.setAttribute("id", "historyWord");
-    insertMemeHistory.type = "button";
-    memeHistory.append(insertMemeHistory);
-};
 
 // event listener for when something in the search history is clicked
 $("#meme-history").on("click", "#historyWord", function() {
