@@ -73,7 +73,7 @@ var getMeme = function(wordFromThesaurus) {
 
 // MAIN the function that runs to create and dispaly information to page THIS IS THE MAIN FUNCTION FOR END-USER EXPERIENCE
 var showThatApp = function(giphyInfo, wordSyn) {
-    $("#memeWord").val("");
+
     // create variables to grab needed information
     var imageURL = giphyInfo.data[0].images.downsized.url;
     var newWord = $("#memeWord").val().trim();
@@ -91,14 +91,14 @@ var showThatApp = function(giphyInfo, wordSyn) {
 
         var repeatButtonHolder = document.createElement("span");
         searchForm.append(repeatButtonHolder);
-        
+
         var repeatButtonEl = document.createElement("button");
         repeatButtonEl.textContent = ("Memeify Again");
-        repeatButtonEl.setAttribute("value", newWord);
+        repeatButtonEl.setAttribute("data-value", newWord);
         repeatButtonEl.setAttribute("id", "repeat-button");
         repeatButtonEl.type = "button";
         repeatButtonHolder.append(repeatButtonEl);
-        repeatButtonEl.onclick = repeatClick;
+        repeatButtonEl.addEventListener("click", repeatClick);
     }
 
     // create individual cards for each individual gif
@@ -117,14 +117,12 @@ var showThatApp = function(giphyInfo, wordSyn) {
     showGif.setAttribute("src", imageURL);
     memeCardContainer.appendChild(showGif);
 
-
-    // $("#giph").attr("src", imageURL);
-    // $("#memeWord").val("");
 };
 
 // create repeat button function
-var repeatClick = function() {
-    console.log(this.value)
+var repeatClick = function(event) {
+    var repeatWord = event.target.getAttribute("data-value");
+    getWord(repeatWord);
 };
 
 var addToMemeHistory = function(wordTyped, wordSynonym) {
