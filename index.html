@@ -13,37 +13,34 @@
 <!--HERO STYLE-->
   <section class="hero is-primary is-small">
     <div class="hero-body has-text-centered is-family-monospace is-size-1 has-text-weight-bold">
-      Memeify.
+      Memeify
     </div>
   </section>
 
   <!--INTRO-->
-  <div class="content has-text-centered">
-    <h1 class="block">Welcome to our meme finder.</h1>
-    <p class="block"> Hello there! Thanks for choosing Memeify, the GIF search site to help you find reactions for the words that escape you. </p>
-  </div>
+  <section class="section">
+    <div class="content has-text-centered">
+      <h1 class="block">Welcome to our meme finder.</h1>
+      <p class="block"> Hello there! Thanks for choosing Memeify, the GIF search site to help find reactions for the words that escape you. </p>
+    </div>
+  </section>
 
-  <main>
-<!--BUTTON CLASSIFICATIONS-->    
-    <form id="user-form">
+  <!--BUTTON CLASSIFICATIONS-->   
+  <main> 
+    <form class="section" id="user-form">
       <input class="input is-rounded is-info is-large" name="memeWord" id="memeWord" type="text" placeholder="Enter a Word" autofocus="true"/>
       <button class="button is-info is-rounded" id="memeBtn" type="submit">Get Memes</button>
       <button class="button is-info is-rounded" id="clearBtn" type="submit">Clear the Meme History</button>
     </form>
 
-    <section>
-      
-      <div id="typedInWord">
-      </div>
-      
-      <div class="columns" id="gif-holder">
-      </div>
-    
+    <section class="section"> 
+      <div id="typedInWord"></div>
+      <div class="columns" id="gif-holder"></div>
     </section>
-
-    <div id="meme-history">      
-    </div>
-  
+    
+    <section class="section">
+      <div class="button is-info is-outlined is-rounded is-small" id="meme-history"></div>
+    </section>
   </main>    
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

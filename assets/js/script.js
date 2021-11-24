@@ -99,6 +99,7 @@ var showThatApp = function(giphyInfo, wordSyn) {
         repeatButtonEl.type = "button";
         repeatButtonHolder.append(repeatButtonEl);
         repeatButtonEl.onclick = repeatClick;
+
     }
 
     // create individual cards for each individual gif
