@@ -3,6 +3,7 @@ var searchHistory = [];  // create an empty object to hold the search history ar
 var inputDisplay = document.querySelector("#typedInWord");
 var memeHistory = document.querySelector("#meme-history");
 var searchForm = document.querySelector("#user-form");
+var lastWordTyped = "";
 
 // generic random number function
 var randomNumber = function(min, max) { 
@@ -13,7 +14,7 @@ var randomNumber = function(min, max) {
 // function to get a synonym for the word the user enters from the Thesaurus API
 var getWord = function(word) {
     var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/" + word +"/json";
-
+    lastWordTyped = word;
 
     fetch(startWord).then(function (response) {
         if (response.ok) {
@@ -135,7 +136,7 @@ var showThatApp = function(giphyInfo, wordSyn) {
         repeatButtonEl.setAttribute("id", "repeat-button");
         repeatButtonEl.type = "button";
         repeatButtonHolder.append(repeatButtonEl);
-        repeatButtonEl.onclick = repeatClick;
+        // repeatButtonEl.onclick = repeatClick;
     }
 
     // create individual cards for each individual gif
@@ -159,10 +160,10 @@ var showThatApp = function(giphyInfo, wordSyn) {
     // $("#memeWord").val("");
 };
 
-// create repeat button function
-var repeatClick = function() {
-    console.log(this.value)
-};
+// // create repeat button function
+// var repeatClick = function() {
+//     console.log(this.value)
+// };
 
 var addToMemeHistory = function(wordTyped, wordSynonym) {
     var insertMemeHistory = document.createElement("button");
@@ -178,7 +179,7 @@ var isNew = function(word) {
     var newMeme = true;
     for (i = 0; i < searchHistory.length; i++) {
         if (searchHistory[i].memeWord == word) {
-            console.log(word, searchHistory[i].memeWord);
+
             newMeme = false;
         }
     }
@@ -224,6 +225,11 @@ $("#meme-history").on("click", "#historyWord", function() {
     getWord(memeHistoryTerm);
 });
 
+$("#user-form").on("click", "#repeat-button", function() {
+    console.log("repeat button clicked");
+    $("#gif-holder").empty();
+    getWord(lastWordTyped);
+});
 
 window.onload = function() {
     searchHistory = JSON.parse(localStorage.getItem("history"));
