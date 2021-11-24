@@ -20,6 +20,7 @@ var getWord = function(word) {
         fetch(startWord).then(function (response) {
             if (response.ok) {
                 response.json().then(function(data) {
+                    console.log(data);
                     if (data.noun) { // If (“noun” in objectName)
                         // console.log(data);
                         var num = data.noun.syn.length - 1; // num = the number of possible synonyms a word has
@@ -30,6 +31,8 @@ var getWord = function(word) {
                             while (pickRandomSynNum1 === pickRandomSynNum2) {
                                 pickRandomSynNum2 = randomNumber(0,num);
                             }
+                        }   else {
+                            pickRandomSynNum2 = "";
                         }
                         
                         var pickRandomSynNum3 = randomNumber(0,num);
@@ -37,6 +40,8 @@ var getWord = function(word) {
                             while (pickRandomSynNum3 === pickRandomSynNum1 || pickRandomSynNum3 === pickRandomSynNum2) {
                                 pickRandomSynNum3 = randomNumber(0,num);
                             }
+                        }   else {
+                            pickRandomSynNum3 = "";
                         }
                         
                         
@@ -72,6 +77,9 @@ var getWord = function(word) {
                         }
                         
 
+                    } else {
+                        alert("Please try another word.");
+                        $("#memeWord").val("");
                     }
                 
                 });
@@ -94,7 +102,7 @@ var getMeme = function(wordFromThesaurus) {
     fetch(giphyURL).then(function (response) {
         if (response.ok) { 
             response.json().then(function(data) {
-                console.log(data);
+                // console.log(data);
                 if (data.data.length > 0) {
                     showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
                 } else {
@@ -102,7 +110,7 @@ var getMeme = function(wordFromThesaurus) {
                 }
             });
         } else {
-            alert("No giph available!");
+            alert("No giphy available!");
         }
     })
     .catch(function(error) {
