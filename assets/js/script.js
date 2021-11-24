@@ -14,48 +14,75 @@ var randomNumber = function(min, max) {
 var getWord = function(word) {
     var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/" + word +"/json";
 
-    for (let run = 0; run < 3; run++) {
-        
-    
 
-        fetch(startWord).then(function (response) {
+    fetch(startWord).then(function (response) {
+        if (response.ok) {
             response.json().then(function(data) {
+                console.log(data);
                 if (data.noun) { // If (“noun” in objectName)
-                    console.log(data);
+                    // console.log(data);
                     var num = data.noun.syn.length - 1; // num = the number of possible synonyms a word has
-                    var pickRandomSynNum = randomNumber(0,num); // returns a random number representing a random word in the noun.array
-                    var wordToMeme = data.noun.syn[pickRandomSynNum]; // sets the word that we will meme to a random synonym.
+                    // we will go through and pick 3 random numbers based off how many synonyms there are for a word
+                    // this keeps us from having a repeat of the same word
+                    var pickRandomSynNum1 = randomNumber(0,num); // returns a random number representing a random word in the noun.array
                     
-                    if (!word || !wordToMeme) {
-                        alert("Something went wrong!");
-                        return;
+                    var pickRandomSynNum2 = randomNumber(0,num);
+                    if (num > 0) {
+                        while (pickRandomSynNum1 === pickRandomSynNum2) {
+                            pickRandomSynNum2 = randomNumber(0,num);
+                        }
+                    }   else {
+                        pickRandomSynNum2 = "";
                     }
+                    
+                    var pickRandomSynNum3 = randomNumber(0,num);
+                    if (num > 1) {
+                        while (pickRandomSynNum3 === pickRandomSynNum1 || pickRandomSynNum3 === pickRandomSynNum2) {
+                            pickRandomSynNum3 = randomNumber(0,num);
+                        }
+                    }   else {
+                        pickRandomSynNum3 = "";
+                    }
+                        
+                        
+                    var wordToMeme1 = data.noun.syn[pickRandomSynNum1]; // sets the word that we will meme to a random synonym.
+                    var wordToMeme2 = data.noun.syn[pickRandomSynNum2];
+                    var wordToMeme3 = data.noun.syn[pickRandomSynNum3];
 
-                    // I think this function should be outside this function call - first it makes it easier to use in future, second, we might need to include get word in a loop and we don't want it logging every synonym it pulls - just the original search
-                    // save the original word and the synonym to local storage
-                    
                     // addToMemeHistory(word, wordToMeme); // adds the orignal word + the synonym word to the search history bar
-                    getMeme(wordToMeme); // passes the random synonym into a function that will make a call to the giphy API
-                    
-                    var newWord = isNew(word);
-                    console.log(newWord);
-                    
+                    getMeme(wordToMeme1); // passes the random synonym into a function that will make a call to the giphy API
+                    if (wordToMeme2) { getMeme(wordToMeme2); } // will only display if the word has enough synonyms
+                    if (wordToMeme3) { getMeme(wordToMeme3); } // will only display if the word has enough synonyms
+
+                    // checking if the word is in the search history already or not.
+                    // if the word is not saved, it will then be added to the history
+                    var newWord = isNew(word);  
                     if (newWord) {
-                        addToMemeHistory(word, wordToMeme);
+                        addToMemeHistory(word, wordToMeme1);
                         var newHistoryToAdd =  {
                             memeWord: word,
-                            memeSyn: wordToMeme
+                            memeSyn1: wordToMeme1,
+                            memeSyn2: wordToMeme2,
+                            memeSyn3: wordToMeme3
                         };
                         searchHistory.push(newHistoryToAdd);
                         localStorage.setItem("history", JSON.stringify(searchHistory));
                     }
-                    
 
+                } else {
+                    alert("Please try another word.");
+                    $("#memeWord").val("");
                 }
-            
+                
             });
-        });
-    };
+        } else {
+            alert("Error:  Word not found!")
+            $("#memeWord").val("");
+        }
+    })
+    .catch(function(error) {
+        alert("Unable to connect to Big Thesaurus!");
+    });
 };
 
 var getMeme = function(wordFromThesaurus) {
@@ -63,10 +90,21 @@ var getMeme = function(wordFromThesaurus) {
     var giphyURL = "https://api.giphy.com/v1/gifs/search?api_key=vcTR1GucFAwcW13jdyTEqRNcYzBbE9E2&q=" + wordFromThesaurus + "&limit=1&offset=0&rating=r&lang=en";
 
     fetch(giphyURL).then(function (response) {
-        response.json().then(function(data) {
-
-            showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
-        });
+        if (response.ok) { 
+            response.json().then(function(data) {
+                // console.log(data);
+                if (data.data.length > 0) {
+                    showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
+                } else {
+                    alert("No giphy available for the word: " + wordFromThesaurus);
+                }
+            });
+        } else {
+            alert("No giphy available!");
+        }
+    })
+    .catch(function(error) {
+        alert("Unable to connect to Giphy!")
     });
 }
 
@@ -167,6 +205,7 @@ $("#memeBtn").on("click", function(event) {
     
     var newWord = $("#memeWord").val().trim();
     getWord(newWord);
+
 });
 
 // event listener for when the clear meme history button is clicked
