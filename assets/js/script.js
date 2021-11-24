@@ -64,7 +64,7 @@ var getMeme = function(wordFromThesaurus) {
 
     fetch(giphyURL).then(function (response) {
         response.json().then(function(data) {
-z
+
             showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
         });
     });
