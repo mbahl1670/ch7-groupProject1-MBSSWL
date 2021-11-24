@@ -2,6 +2,7 @@
 var searchHistory = [];  // create an empty object to hold the search history arrays
 var inputDisplay = document.querySelector("#typedInWord");
 var memeHistory = document.querySelector("#meme-history");
+var searchForm = document.querySelector("#user-form");
 
 // generic random number function
 var randomNumber = function(min, max) { 
@@ -81,26 +82,49 @@ var showThatApp = function(giphyInfo, wordSyn) {
     // this needs some help from a TA. Without an if it will display once for each loop. With if it doesn't display
     if (inputDisplay === "") {
         var wordDisplayEl = $("<h2></h2>").text("Memifying " + newWord);
-        $("#typedInWord").append(wordDisplayEl);     
+        $("#typedInWord").append(wordDisplayEl); 
     }
 
-    var mainGifHolder = document.querySelector("#gif-holder");
 
+    // create repeat button but only once
+    if (!document.getElementById("repeat-button")) {
+
+        var repeatButtonHolder = document.createElement("span");
+        searchForm.append(repeatButtonHolder);
+        
+        var repeatButtonEl = document.createElement("button");
+        repeatButtonEl.textContent = ("Memeify Again");
+        repeatButtonEl.setAttribute("value", newWord);
+        repeatButtonEl.setAttribute("id", "repeat-button");
+        repeatButtonEl.type = "button";
+        repeatButtonHolder.append(repeatButtonEl);
+        repeatButtonEl.onclick = repeatClick;
+    }
 
     // create individual cards for each individual gif
+    var mainGifHolder = document.querySelector("#gif-holder");
     var memeCardContainer = document.createElement("div");
     // each card should have its own ID but I haven't solved how to generate that without a loop on this function yet
     // memeCardContainer.setAttribute("id", "new-meme" + (x+1));
     mainGifHolder.appendChild(memeCardContainer);
+
+    var gifExplainEl = document.createElement("p");
+    gifExplainEl.textContent = (wordSyn);
+    memeCardContainer.append(gifExplainEl);
+
 
     var showGif = document.createElement("img");
     showGif.setAttribute("src", imageURL);
     memeCardContainer.appendChild(showGif);
 
 
-
     // $("#giph").attr("src", imageURL);
     // $("#memeWord").val("");
+};
+
+// create repeat button function
+var repeatClick = function() {
+    console.log(this.value)
 };
 
 var addToMemeHistory = function(wordTyped, wordSynonym) {
@@ -110,6 +134,8 @@ var addToMemeHistory = function(wordTyped, wordSynonym) {
     insertMemeHistory.type = "button";
     memeHistory.append(insertMemeHistory);
 };
+
+
 
 var isNew = function(word) {
     var newMeme = true;
