@@ -21,7 +21,7 @@ var getWord = function(word) {
             if (response.ok) {
                 response.json().then(function(data) {
                     if (data.noun) { // If (“noun” in objectName)
-                        console.log(data);
+                        // console.log(data);
                         var num = data.noun.syn.length - 1; // num = the number of possible synonyms a word has
                         var pickRandomSynNum1 = randomNumber(0,num); // returns a random number representing a random word in the noun.array
                         
@@ -94,7 +94,12 @@ var getMeme = function(wordFromThesaurus) {
     fetch(giphyURL).then(function (response) {
         if (response.ok) { 
             response.json().then(function(data) {
-                showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
+                console.log(data);
+                if (data.data.length > 0) {
+                    showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
+                } else {
+                    alert("No giphy available for the word: " + wordFromThesaurus);
+                }
             });
         } else {
             alert("No giph available!");
@@ -176,6 +181,7 @@ $("#memeBtn").on("click", function(event) {
     
     var newWord = $("#memeWord").val().trim();
     getWord(newWord);
+
 });
 
 // event listener for when the clear meme history button is clicked
