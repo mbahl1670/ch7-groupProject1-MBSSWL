@@ -13,21 +13,22 @@
 <!--HERO STYLE-->
   <section class="hero is-primary is-small">
     <div class="hero-body has-text-centered is-family-monospace is-size-1 has-text-weight-bold">
-      Memeify
+      Memeify.
     </div>
   </section>
 
-  <header>
-    <h1>Welcome to our Meme Builder!</h1>
-  </header>
+  <!--INTRO-->
+  <div class="content has-text-centered">
+    <h1 class="block">Welcome to our meme finder.</h1>
+    <p class="block"> Hello there! Thanks for choosing Memeify, the GIF search site to help you find reactions for the words that escape you. </p>
+  </div>
 
   <main>
-    
+<!--BUTTON CLASSIFICATIONS-->    
     <form id="user-form">
-      <label for="memeWord">Give me a Word to Meme!</label>
-      <input name="memeWord" id="memeWord" type="text" placeholder="Enter a Word" autofocus="true"/>
-      <button id="memeBtn" type="submit">Get Memes</button>
-        <button id="clearBtn" type="submit">Clear the Meme History</button>
+      <input class="input is-rounded is-info is-large" name="memeWord" id="memeWord" type="text" placeholder="Enter a Word" autofocus="true"/>
+      <button class="button is-info is-rounded" id="memeBtn" type="submit">Get Memes</button>
+      <button class="button is-info is-rounded" id="clearBtn" type="submit">Clear the Meme History</button>
     </form>
 
     <section>
@@ -35,7 +36,7 @@
       <div id="typedInWord">
       </div>
       
-      <div id="gif-holder">
+      <div class="columns" id="gif-holder">
       </div>
     
     </section>
