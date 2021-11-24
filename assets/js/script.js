@@ -87,7 +87,7 @@ var showThatApp = function(giphyInfo, wordSyn) {
 
 
     // create repeat button but only once
-    if (!document.getElementById("repeat-button")) {
+   /* if (!document.getElementById("repeat-button")) {
 
         var repeatButtonHolder = document.createElement("span");
         searchForm.append(repeatButtonHolder);
@@ -100,7 +100,7 @@ var showThatApp = function(giphyInfo, wordSyn) {
         repeatButtonHolder.append(repeatButtonEl);
         repeatButtonEl.onclick = repeatClick;
 
-    }
+    }*/
 
     // create individual cards for each individual gif
     var mainGifHolder = document.querySelector("#gif-holder");
@@ -123,10 +123,11 @@ var showThatApp = function(giphyInfo, wordSyn) {
     // $("#memeWord").val("");
 };
 
-// create repeat button function
+/* create repeat button function
 var repeatClick = function() {
     console.log(this.value)
 };
+*/
 
 var addToMemeHistory = function(wordTyped, wordSynonym) {
     var insertMemeHistory = document.createElement("button");
