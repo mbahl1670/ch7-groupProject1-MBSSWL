@@ -56,8 +56,10 @@ var getWord = function(word) {
 
                     // checking if the word is in the search history already or not.
                     // if the word is not saved, it will then be added to the history
-                    var newWord = isNew(word);  
-                    if (newWord) {
+                    var newWord = isNew(word);  // returns true if the word is not in search history, false if it is not in the search history
+                    if (newWord) { 
+                        // this will save the word and the synonyms it sends to giphy into local storage
+                        // and add the word to the search history bar at the bottom of the page
                         addToMemeHistory(word, wordToMeme1);
                         var newHistoryToAdd =  {
                             memeWord: word,
@@ -67,6 +69,20 @@ var getWord = function(word) {
                         };
                         searchHistory.push(newHistoryToAdd);
                         localStorage.setItem("history", JSON.stringify(searchHistory));
+                    } else { // updates local storage with the new synonyms for the word if it is already in the search history
+                        console.log("not a new word");
+                        var index;
+                        for (i = 0 ; i < searchHistory.length; i++) {
+                            if (searchHistory[i].memeWord === word) {
+                                index = i;
+                            }
+                        }
+
+                        searchHistory[index].memeSyn1 = wordToMeme1;
+                        searchHistory[index].memeSyn2 = wordToMeme2;
+                        searchHistory[index].memeSyn3 = wordToMeme3;
+                        localStorage.setItem("history", JSON.stringify(searchHistory));
+
                     }
 
                 } else {
@@ -185,7 +201,6 @@ var isNew = function(word) {
     var newMeme = true;
     for (i = 0; i < searchHistory.length; i++) {
         if (searchHistory[i].memeWord == word) {
-            console.log(word, searchHistory[i].memeWord);
             newMeme = false;
         }
     }
