@@ -2,8 +2,11 @@
 
 ## Team Members
 * Michael Bahl (https://mbahl1670.github.io/ch2-portfolio-mjb/)
+  - API calls, local storage setup, clickable search history
 * Shaun Sticka
+  - Dynamic display and local storage integration
 * William Lower
+  - Styling and Bulma
 
 ## Built With
 * Javascript
@@ -32,7 +35,14 @@ https://mbahl1670.github.io/ch7-groupProject1-MBSSWL/
 *
 
 ## Challenges
-*
+* Understanding new API's, how the work and how to interrupt & use the data they supply
+* Reconcilling differing ideas on the development of the app
+* Coordinating schedules / communcating with group members
+* Learning a new styleing framework in Bulma
 
 ## Directions for Future Development
-*
+* Expand the search options to return more gifs for more synonyms.
+* Make the user interface intuitive while simultaneously allowing end-users easy access to all the gifs they are presented in an easy-to-see fashion.
+* Display information about the variety of returns (visual e.g. pie chart, graph, something).
+* Enable the app to search for any type of word
+* Allow the use to search for antynonms of a word
