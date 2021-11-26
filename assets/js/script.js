@@ -72,7 +72,6 @@ var getWord = function(word) {
                         searchHistory.push(newHistoryToAdd);
                         localStorage.setItem("history", JSON.stringify(searchHistory));
                     } else { // updates local storage with the new synonyms for the word if it is already in the search history
-                        console.log("not a new word");
                         var index;
                         for (i = 0 ; i < searchHistory.length; i++) {
                             if (searchHistory[i].memeWord === word) {
@@ -88,18 +87,18 @@ var getWord = function(word) {
                     }
 
                 } else {
-                    alert("Please try another word.");
+                    displayModal("Please try another word.");
                     $("#memeWord").val("");
                 }
                 
             });
         } else {
-            alert("Error:  Word not found!")
+            displayModal("Error:  Word not found!");
             $("#memeWord").val("");
         }
     })
     .catch(function(error) {
-        alert("Unable to connect to Big Thesaurus!");
+        displayModal("Unable to connect to Big Thesaurus!");
     });
 };
 
@@ -114,15 +113,16 @@ var getMeme = function(wordFromThesaurus) {
                 if (data.data.length > 0) {
                     showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
                 } else {
-                    alert("No giphy available for the word: " + wordFromThesaurus);
+                    // displayModal('"No giphy available for the word: " + wordFromThesaurus');
+                    displayModalNoGiph(wordFromThesaurus);
                 }
             });
         } else {
-            alert("No giphy available!");
+            displayModal("No giphy available!");
         }
     })
     .catch(function(error) {
-        alert("Unable to connect to Giphy!")
+        displayModal("Unable to connect to Giphy!");
     });
 }
 
@@ -213,6 +213,22 @@ var isNew = function(word) {
     }
     return newMeme;
 }
+
+// will the display an alert Modal instead of using window alert
+var displayModal = function(alert) {
+    $("#modal").addClass("is-active");
+    $("#alert").text(alert);
+}
+
+// specialated Modal alert for when there is not GIPHY for the word found
+var displayModalNoGiph = function(thesaurausWord) {
+    $("#modal").addClass("is-active");
+    $("#alert").text("No giphy available for the word: " + thesaurausWord);
+}
+
+$(".modal-background").on("click", function() {
+    $("#modal").removeClass("is-active");
+});
 
 // functionality stuff to make it look prettier. 
 // when you click the text area the placeholder clears,
