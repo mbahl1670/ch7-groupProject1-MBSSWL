@@ -1,4 +1,4 @@
-# Weather Dashboard - Group Project 1 in the U of MN Bootcamp
+# Memeify - Group Project 1 in the U of MN Bootcamp
 
 ## Team Members
 * Michael Bahl (https://mbahl1670.github.io/ch2-portfolio-mjb/)
