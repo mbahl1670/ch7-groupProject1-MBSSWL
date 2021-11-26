@@ -27,14 +27,16 @@
 
   <!--BUTTON CLASSIFICATIONS-->   
   <main> 
-    <form class="section" id="user-form">
-      <input class="input mb-2 is-rounded is-info is-large" name="memeWord" id="memeWord" type="text" placeholder="Enter a Word" autofocus="true"/>
-      <button class="button mb-2 is-info is-rounded" id="memeBtn" type="submit">Get Memes</button>
-      <button class="button mb-2 is-info is-rounded" id="clearBtn" type="submit">Clear the Meme History</button>
+    <form class="" id="user-form">
+      <input class="columns input mb-2 is-rounded is-info is-large has-text-centered" name="memeWord" id="memeWord" type="text" placeholder="Enter a Word" autofocus="true"/>
+      <div class="columns is-justify-content-center">
+        <button class="button m-2 is-info is-rounded" id="memeBtn" type="submit">Get Memes</button>
+        <button class="button m-2 is-info is-rounded" id="clearBtn" type="submit">Clear the Meme History</button>
+      </div>
     </form>
 
-    <section class="section"> 
-      <div id="typedInWord"></div>
+    <section class="container is-full"> 
+      <div class="content mb-2 has-text-centered" id="typedInWord"></div>
       <div class="columns container is-justify-content-center" id="gif-holder"></div>
     </section>
     

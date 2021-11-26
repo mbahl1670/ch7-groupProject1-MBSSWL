@@ -135,11 +135,12 @@ var showThatApp = function(giphyInfo, wordSyn) {
 
     // create simple message for UX
     // this needs some help from a TA. Without an if it will display once for each loop. With if it doesn't display
-    if (inputDisplay === "") {
-        var wordDisplayEl = $("<h2></h2>").text("Memifying " + lastWordTyped);
-        $("#typedInWord").append("<h2>Memeifying</h2>"); 
-    }
-
+    // if (inputDisplay === "") {
+    //     // var wordDisplayEl = $("<h2></h2>").text("Memifying " + lastWordTyped);
+    //     // $("#typedInWord").append("<h2>Memeifying</h2>"); 
+    // }
+    $("#typedInWord").html("");
+    $("#typedInWord").append("<h2 class = mt-2>Memifying " + lastWordTyped + "</h2>");
 
     // create repeat button but only once
 
@@ -163,17 +164,19 @@ var showThatApp = function(giphyInfo, wordSyn) {
     // create individual cards for each individual gif
     var mainGifHolder = document.querySelector("#gif-holder");
     var memeCardContainer = document.createElement("div");
+    memeCardContainer.className = "card borderMe has-background-primary-light";
     // each card should have its own ID but I haven't solved how to generate that without a loop on this function yet
     // memeCardContainer.setAttribute("id", "new-meme" + (x+1));
     mainGifHolder.appendChild(memeCardContainer);
 
     var gifExplainEl = document.createElement("p");
-    gifExplainEl.textContent = "Synonym for " + lastWordTyped + ": " + wordSyn;
-    gifExplainEl.className = "content has-text-centered is-primary-dark "
+    gifExplainEl.textContent = "Synonym: " + wordSyn;
+    gifExplainEl.className = "content has-text-centered has-background-primary-light"
     memeCardContainer.append(gifExplainEl);
 
 
     var showGif = document.createElement("img");
+    showGif.className = "image setImage";
     showGif.setAttribute("src", imageURL);
     memeCardContainer.appendChild(showGif);
 
