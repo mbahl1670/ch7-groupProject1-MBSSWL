@@ -2,7 +2,7 @@
 
 ## Team Members
 * Michael Bahl (https://mbahl1670.github.io/ch2-portfolio-mjb/)
-  - API calls, local storage setup, clickable search history
+  - API calls, local storage setup, clickable search history, styling tune-up & Modals
 * Shaun Sticka
   - Dynamic display and local storage integration
 * William Lower
@@ -12,7 +12,7 @@
 * HTML
 * JavaScript
 * JQuery
-* Bulma
+* Bulma (https://bulma.io/)
 * GitHub
 
 ## API's Used
@@ -20,7 +20,16 @@
 * GIPHY (https://developers.giphy.com/)
 
 ## Acceptance Criteria
-* 
+* Use a CSS framework other than Bootstrap
+* Be deployed at GitHub pages
+* Be interactive (accept and respond to uesr input)
+* Use at least 2 server-side API's
+* Does not use alerts, confirms or prompts (use modals)
+* Use client-side storage to store persistent data
+* Be responsive
+* Have a polished UI
+* Have a clean a clean repository that meets quality coding standards
+* Have quality READEME file
 
 ## Screenshot of the Application
 ![Screenshot (29)](https://user-images.githubusercontent.com/90292697/143497875-e6cfcb75-eb2a-46ad-8565-872da9a5d7eb.png)
@@ -34,7 +43,16 @@ https://github.com/mbahl1670/ch7-groupProject1-MBSSWL
 https://mbahl1670.github.io/ch7-groupProject1-MBSSWL/
 
 ## How this was accomplished
-*
+* Created a shared repository on GitHub with associated Project and deployed webpage
+* Decided on using Bulma as a CSS framework, Bulma is a responsive mobile-first framework and optimizes for vertical reading, so by default on mobile.
+* Decdied on Big Huge Thesaurus & GIPHY as the 2 API's we were going to use and established the concept of the app around what we can use them for
+* Divied up tasks between group members
+* Wrote the fetch requests for the API and evaluated the data they returned
+* User interface allows the user to type in a word, and click buttons to search or clear the search history
+* Dynamically created the Giph display area and Search History
+* Search history was made interactive and can be clicked to repeat a previous search
+* Color scheme and styling achieved using Bulma classes.
+* Fine-tuned stying and updated alerts to modals
 
 ## Challenges
 * Understanding new API's, how the work and how to interrupt & use the data they supply
