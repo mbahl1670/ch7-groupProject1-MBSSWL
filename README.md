@@ -9,9 +9,11 @@
   - Styling and Bulma
 
 ## Built With
-* Javascript
+* HTML
+* JavaScript
 * JQuery
 * Bulma
+* GitHub
 
 ## API's Used
 * Big Huge Thesaurus (https://words.bighugelabs.com/site/api)
