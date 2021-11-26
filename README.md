@@ -32,9 +32,8 @@
 * Have quality READEME file
 
 ## Screenshot of the Application
-![Screenshot (29)](https://user-images.githubusercontent.com/90292697/143497875-e6cfcb75-eb2a-46ad-8565-872da9a5d7eb.png)
-![Screenshot (30)](https://user-images.githubusercontent.com/90292697/143497880-a83912e9-a7ec-4739-9970-27fb43ee8a2f.png)
-![Screenshot (32)](https://user-images.githubusercontent.com/90292697/143497889-eb46591e-8db8-4277-8498-b860c92305d9.png)
+![Screenshot (34)](https://user-images.githubusercontent.com/90292697/143657862-1b88f4a0-06a0-4310-8c83-6c99cc8833a3.png)
+![Screenshot (35)](https://user-images.githubusercontent.com/90292697/143657889-4c88a86f-05bd-4f2a-8a31-6154f269fcb6.png)
 
 ## Git Repository!
 https://github.com/mbahl1670/ch7-groupProject1-MBSSWL
