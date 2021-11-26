@@ -3,6 +3,7 @@ var searchHistory = [];  // create an empty object to hold the search history ar
 var inputDisplay = document.querySelector("#typedInWord");
 var memeHistory = document.querySelector("#meme-history");
 var searchForm = document.querySelector("#user-form");
+var lastWordTyped;
 
 // generic random number function
 var randomNumber = function(min, max) { 
@@ -12,6 +13,7 @@ var randomNumber = function(min, max) {
 
 // function to get a synonym for the word the user enters from the Thesaurus API
 var getWord = function(word) {
+    lastWordTyped = word;
     var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/" + word +"/json";
 
 
@@ -134,8 +136,8 @@ var showThatApp = function(giphyInfo, wordSyn) {
     // create simple message for UX
     // this needs some help from a TA. Without an if it will display once for each loop. With if it doesn't display
     if (inputDisplay === "") {
-        var wordDisplayEl = $("<h2></h2>").text("Memifying " + newWord);
-        $("#typedInWord").append(wordDisplayEl); 
+        var wordDisplayEl = $("<h2></h2>").text("Memifying " + lastWordTyped);
+        $("#typedInWord").append("<h2>Memeifying</h2>"); 
     }
 
 
@@ -166,7 +168,8 @@ var showThatApp = function(giphyInfo, wordSyn) {
     mainGifHolder.appendChild(memeCardContainer);
 
     var gifExplainEl = document.createElement("p");
-    gifExplainEl.textContent = (wordSyn);
+    gifExplainEl.textContent = "Synonym for " + lastWordTyped + ": " + wordSyn;
+    gifExplainEl.className = "content has-text-centered is-primary-dark "
     memeCardContainer.append(gifExplainEl);
 
 
@@ -190,6 +193,7 @@ var repeatClick = function() {
 var addToMemeHistory = function(wordTyped, wordSynonym) {
     var insertMemeHistory = document.createElement("button");
     insertMemeHistory.textContent = wordTyped;
+    insertMemeHistory.className = "button mx-2 is-info is-outlined is-rounded is-small has-background-info-light has-text-info-dark";
     insertMemeHistory.setAttribute("id", "historyWord");
     insertMemeHistory.type = "button";
     memeHistory.append(insertMemeHistory);
