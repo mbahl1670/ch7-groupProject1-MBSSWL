@@ -3,6 +3,7 @@ var searchHistory = [];  // create an empty object to hold the search history ar
 var inputDisplay = document.querySelector("#typedInWord");
 var memeHistory = document.querySelector("#meme-history");
 var searchForm = document.querySelector("#user-form");
+var lastWordTyped;
 
 // generic random number function
 var randomNumber = function(min, max) { 
@@ -12,50 +13,93 @@ var randomNumber = function(min, max) {
 
 // function to get a synonym for the word the user enters from the Thesaurus API
 var getWord = function(word) {
+    lastWordTyped = word;
     var startWord = "https://words.bighugelabs.com/api/2/9a06618119fb219174cc6aaec15b4f46/" + word +"/json";
 
-    for (let run = 0; run < 3; run++) {
-        
-    
 
-        fetch(startWord).then(function (response) {
+    fetch(startWord).then(function (response) {
+        if (response.ok) {
             response.json().then(function(data) {
+                console.log(data);
                 if (data.noun) { // If (“noun” in objectName)
-                    console.log(data);
+                    // console.log(data);
                     var num = data.noun.syn.length - 1; // num = the number of possible synonyms a word has
-                    var pickRandomSynNum = randomNumber(0,num); // returns a random number representing a random word in the noun.array
-                    var wordToMeme = data.noun.syn[pickRandomSynNum]; // sets the word that we will meme to a random synonym.
+                    // we will go through and pick 3 random numbers based off how many synonyms there are for a word
+                    // this keeps us from having a repeat of the same word
+                    var pickRandomSynNum1 = randomNumber(0,num); // returns a random number representing a random word in the noun.array
                     
-                    if (!word || !wordToMeme) {
-                        alert("Something went wrong!");
-                        return;
+                    var pickRandomSynNum2 = randomNumber(0,num);
+                    if (num > 0) {
+                        while (pickRandomSynNum1 === pickRandomSynNum2) {
+                            pickRandomSynNum2 = randomNumber(0,num);
+                        }
+                    }   else {
+                        pickRandomSynNum2 = "";
                     }
+                    
+                    var pickRandomSynNum3 = randomNumber(0,num);
+                    if (num > 1) {
+                        while (pickRandomSynNum3 === pickRandomSynNum1 || pickRandomSynNum3 === pickRandomSynNum2) {
+                            pickRandomSynNum3 = randomNumber(0,num);
+                        }
+                    }   else {
+                        pickRandomSynNum3 = "";
+                    }
+                        
+                        
+                    var wordToMeme1 = data.noun.syn[pickRandomSynNum1]; // sets the word that we will meme to a random synonym.
+                    var wordToMeme2 = data.noun.syn[pickRandomSynNum2];
+                    var wordToMeme3 = data.noun.syn[pickRandomSynNum3];
 
-                    // I think this function should be outside this function call - first it makes it easier to use in future, second, we might need to include get word in a loop and we don't want it logging every synonym it pulls - just the original search
-                    // save the original word and the synonym to local storage
-                    
                     // addToMemeHistory(word, wordToMeme); // adds the orignal word + the synonym word to the search history bar
-                    getMeme(wordToMeme); // passes the random synonym into a function that will make a call to the giphy API
-                    
-                    var newWord = isNew(word);
-                    console.log(newWord);
-                    
-                    if (newWord) {
-                        addToMemeHistory(word, wordToMeme);
+                    getMeme(wordToMeme1); // passes the random synonym into a function that will make a call to the giphy API
+                    if (wordToMeme2) { getMeme(wordToMeme2); } // will only display if the word has enough synonyms
+                    if (wordToMeme3) { getMeme(wordToMeme3); } // will only display if the word has enough synonyms
+
+                    // checking if the word is in the search history already or not.
+                    // if the word is not saved, it will then be added to the history
+                    var newWord = isNew(word);  // returns true if the word is not in search history, false if it is not in the search history
+                    if (newWord) { 
+                        // this will save the word and the synonyms it sends to giphy into local storage
+                        // and add the word to the search history bar at the bottom of the page
+                        addToMemeHistory(word, wordToMeme1);
                         var newHistoryToAdd =  {
                             memeWord: word,
-                            memeSyn: wordToMeme
+                            memeSyn1: wordToMeme1,
+                            memeSyn2: wordToMeme2,
+                            memeSyn3: wordToMeme3
                         };
                         searchHistory.push(newHistoryToAdd);
                         localStorage.setItem("history", JSON.stringify(searchHistory));
-                    }
-                    
+                    } else { // updates local storage with the new synonyms for the word if it is already in the search history
+                        var index;
+                        for (i = 0 ; i < searchHistory.length; i++) {
+                            if (searchHistory[i].memeWord === word) {
+                                index = i;
+                            }
+                        }
 
+                        searchHistory[index].memeSyn1 = wordToMeme1;
+                        searchHistory[index].memeSyn2 = wordToMeme2;
+                        searchHistory[index].memeSyn3 = wordToMeme3;
+                        localStorage.setItem("history", JSON.stringify(searchHistory));
+
+                    }
+
+                } else {
+                    displayModal("Please try another word.");
+                    $("#memeWord").val("");
                 }
-            
+                
             });
-        });
-    };
+        } else {
+            displayModal("Error:  Word not found!");
+            $("#memeWord").val("");
+        }
+    })
+    .catch(function(error) {
+        displayModal("Unable to connect to Big Thesaurus!");
+    });
 };
 
 var getMeme = function(wordFromThesaurus) {
@@ -63,11 +107,22 @@ var getMeme = function(wordFromThesaurus) {
     var giphyURL = "https://api.giphy.com/v1/gifs/search?api_key=vcTR1GucFAwcW13jdyTEqRNcYzBbE9E2&q=" + wordFromThesaurus + "&limit=1&offset=0&rating=r&lang=en";
 
     fetch(giphyURL).then(function (response) {
-        response.json().then(function(data) {
-            console.log(wordFromThesaurus);
-            console.log(data);
-            showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
-        });
+        if (response.ok) { 
+            response.json().then(function(data) {
+                // console.log(data);
+                if (data.data.length > 0) {
+                    showThatApp(data, wordFromThesaurus); // calls the function that will display info onto the page
+                } else {
+                    // displayModal('"No giphy available for the word: " + wordFromThesaurus');
+                    displayModalNoGiph(wordFromThesaurus);
+                }
+            });
+        } else {
+            displayModal("No giphy available!");
+        }
+    })
+    .catch(function(error) {
+        displayModal("Unable to connect to Giphy!");
     });
 }
 
@@ -80,11 +135,12 @@ var showThatApp = function(giphyInfo, wordSyn) {
 
     // create simple message for UX
     // this needs some help from a TA. Without an if it will display once for each loop. With if it doesn't display
-    if (inputDisplay === "") {
-        var wordDisplayEl = $("<h2></h2>").text("Memifying " + newWord);
-        $("#typedInWord").append(wordDisplayEl); 
-    }
-
+    // if (inputDisplay === "") {
+    //     // var wordDisplayEl = $("<h2></h2>").text("Memifying " + lastWordTyped);
+    //     // $("#typedInWord").append("<h2>Memeifying</h2>"); 
+    // }
+    $("#typedInWord").html("");
+    $("#typedInWord").append("<h2 class = mt-2>Memifying " + lastWordTyped + "</h2>");
 
     // create repeat button but only once
 
@@ -108,16 +164,19 @@ var showThatApp = function(giphyInfo, wordSyn) {
     // create individual cards for each individual gif
     var mainGifHolder = document.querySelector("#gif-holder");
     var memeCardContainer = document.createElement("div");
+    memeCardContainer.className = "card borderMe has-background-primary-light";
     // each card should have its own ID but I haven't solved how to generate that without a loop on this function yet
     // memeCardContainer.setAttribute("id", "new-meme" + (x+1));
     mainGifHolder.appendChild(memeCardContainer);
 
     var gifExplainEl = document.createElement("p");
-    gifExplainEl.textContent = (wordSyn);
+    gifExplainEl.textContent = "Synonym: " + wordSyn;
+    gifExplainEl.className = "content has-text-centered has-background-primary-light"
     memeCardContainer.append(gifExplainEl);
 
 
     var showGif = document.createElement("img");
+    showGif.className = "image setImage";
     showGif.setAttribute("src", imageURL);
     memeCardContainer.appendChild(showGif);
 
@@ -137,6 +196,7 @@ var repeatClick = function() {
 var addToMemeHistory = function(wordTyped, wordSynonym) {
     var insertMemeHistory = document.createElement("button");
     insertMemeHistory.textContent = wordTyped;
+    insertMemeHistory.className = "button mx-2 is-info is-outlined is-rounded is-small has-background-info-light has-text-info-dark";
     insertMemeHistory.setAttribute("id", "historyWord");
     insertMemeHistory.type = "button";
     memeHistory.append(insertMemeHistory);
@@ -148,12 +208,27 @@ var isNew = function(word) {
     var newMeme = true;
     for (i = 0; i < searchHistory.length; i++) {
         if (searchHistory[i].memeWord == word) {
-            console.log(word, searchHistory[i].memeWord);
             newMeme = false;
         }
     }
     return newMeme;
 }
+
+// will the display an alert Modal instead of using window alert
+var displayModal = function(alert) {
+    $("#modal").addClass("is-active");
+    $("#alert").text(alert);
+}
+
+// specialated Modal alert for when there is not GIPHY for the word found
+var displayModalNoGiph = function(thesaurausWord) {
+    $("#modal").addClass("is-active");
+    $("#alert").text("No giphy available for the word: " + thesaurausWord);
+}
+
+$(".modal-background").on("click", function() {
+    $("#modal").removeClass("is-active");
+});
 
 // functionality stuff to make it look prettier. 
 // when you click the text area the placeholder clears,
@@ -175,6 +250,7 @@ $("#memeBtn").on("click", function(event) {
     
     var newWord = $("#memeWord").val().trim();
     getWord(newWord);
+
 });
 
 // event listener for when the clear meme history button is clicked
