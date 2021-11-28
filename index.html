@@ -18,7 +18,7 @@
   </section>
 
   <!--INTRO-->
-  <section class="section">
+  <section class="section smallerSection is-primary-light">
     <div class="content has-text-centered">
       <h1 class="block">Welcome to our meme finder.</h1>
       <p class="block"> Hello there! Thanks for choosing Memeify, the GIF search site to help find reactions for the words that escape you. </p>
@@ -27,21 +27,31 @@
 
   <!--BUTTON CLASSIFICATIONS-->   
   <main> 
-    <form class="section" id="user-form">
-      <input class="input is-rounded is-info is-large" name="memeWord" id="memeWord" type="text" placeholder="Enter a Word" autofocus="true"/>
-      <button class="button is-info is-rounded" id="memeBtn" type="submit">Get Memes</button>
-      <button class="button is-info is-rounded" id="clearBtn" type="submit">Clear the Meme History</button>
+    <form class="" id="user-form">
+      <input class="columns input mb-2 is-rounded is-info is-large has-text-centered" name="memeWord" id="memeWord" type="text" placeholder="Enter a Word" autofocus="true"/>
+      <div class="columns is-justify-content-center">
+        <button class="button m-2 is-info is-rounded" id="memeBtn" type="submit">Get Memes</button>
+        <button class="button m-2 is-info is-rounded" id="clearBtn" type="submit">Clear the Meme History</button>
+      </div>
     </form>
 
-    <section class="section"> 
-      <div id="typedInWord"></div>
-      <div class="columns" id="gif-holder"></div>
+    <section class="container is-full"> 
+      <div class="content mb-2 has-text-centered" id="typedInWord"></div>
+      <div class="columns container is-justify-content-center" id="gif-holder"></div>
     </section>
     
     <section class="section">
-      <div class="button is-info is-outlined is-rounded is-small" id="meme-history"></div>
+      <div class="columns is-justify-content-center" id="meme-history">
+      </div>
     </section>
   </main>    
+
+  <div class="modal" id="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content py-5 px-5 has-background-info-light">
+      <h3 class="title" id="alert"></h3>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
